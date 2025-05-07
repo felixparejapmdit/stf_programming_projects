@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Manage Projects</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f8f9fa;
+        padding: 2em;
+      }
+      h2 {
+        text-align: center;
+        background-color: #35424a;
+        color: white;
+        padding: 10px 0;
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 2em;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #35424a;
+        color: white;
+      }
+      button {
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .add-btn {
+        background: #28a745;
+        color: white;
+        float: right;
+        margin-bottom: 1em;
+        margin-top: 1em;
+      }
+      .icon-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+      .edit-icon {
+        color: #ffc107;
+      }
+      .delete-icon {
+        color: #dc3545;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background: white;
+        padding: 2em;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        margin: 0.5em 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .modal-footer {
+        text-align: right;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <h2>Manage Projects</h2>
+    <button class="add-btn" onclick="openModal()">Add Project</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+          <th>Image</th>
+          <th>Video</th>
+          <th>Description</th>
+          <th>Developers</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="projectTable"></tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Add Project</h3>
+        <input type="hidden" id="editIndex" />
+        <input type="text" id="name" placeholder="Project Name" required />
+        <input type="url" id="url" placeholder="Project URL (optional)" />
+        <textarea id="description" placeholder="Project Description"></textarea>
+        <input
+          type="text"
+          id="developers"
+          placeholder="Developer Names (comma-separated)"
+        />
+        <input
+          type="text"
+          id="section"
+          placeholder="Developer Sections (comma-separated)"
+        />
+        <input type="file" id="image" accept="image/*" />
+        <input type="file" id="video" accept="video/*" />
+        <div class="modal-footer">
+          <button onclick="closeModal()">Cancel</button>
+          <button onclick="saveProject()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let projects = [];
+
+      function openModal(index = null) {
+        document.getElementById("projectModal").style.display = "flex";
+        if (index !== null) {
+          const p = projects[index];
+          document.getElementById("modalTitle").innerText = "Edit Project";
+          document.getElementById("editIndex").value = index;
+          document.getElementById("name").value = p.name;
+          document.getElementById("url").value = p.url || "";
+          document.getElementById("description").value = p.description || "";
+          document.getElementById("developers").value =
+            p.developers?.map((d) => d.name).join(", ") || "";
+          document.getElementById("section").value =
+            p.developers?.map((d) => d.section).join(", ") || "";
+        } else {
+          document.getElementById("modalTitle").innerText = "Add Project";
+          document.getElementById("editIndex").value = "";
+          document.getElementById("name").value = "";
+          document.getElementById("url").value = "";
+          document.getElementById("description").value = "";
+          document.getElementById("developers").value = "";
+          document.getElementById("section").value = "";
+          document.getElementById("image").value = "";
+          document.getElementById("video").value = "";
+        }
+      }
+
+      function closeModal() {
+        document.getElementById("projectModal").style.display = "none";
+      }
+
+      async function readFile(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function saveProject() {
+        const index = document.getElementById("editIndex").value;
+        const name = document.getElementById("name").value.trim();
+        const url = document.getElementById("url").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const developerNames = document
+          .getElementById("developers")
+          .value.trim();
+        const sections = document.getElementById("section").value.trim();
+        const imageFile = document.getElementById("image").files[0];
+        const videoFile = document.getElementById("video").files[0];
+
+        if (!name) return alert("Project name is required.");
+        if (!developerNames || !sections)
+          return alert("Developer names and sections are required.");
+
+        const developers = developerNames.split(",").map((name, i) => ({
+          name: name.trim(),
+          section: sections.split(",")[i]?.trim() || "", // Assign sections to developers based on order
+        }));
+
+        let newProject = { name, url, description, developers };
+
+        if (index) newProject.index = +index;
+        if (imageFile) newProject.image = await readFile(imageFile);
+        else if (index) newProject.image = projects[index].image;
+
+        if (videoFile) newProject.video = await readFile(videoFile);
+        else if (index) newProject.video = projects[index].video;
+
+        await fetch("/api/projects", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newProject),
+        });
+
+        closeModal();
+        loadProjects();
+      }
+
+      async function deleteProject(index) {
+        if (!confirm("Delete this project?")) return;
+        await fetch(`/api/projects/${index}`, { method: "DELETE" });
+        loadProjects();
+      }
+
+      function renderTable() {
+        const tbody = document.getElementById("projectTable");
+        tbody.innerHTML = "";
+        projects.forEach((p, i) => {
+          const devs =
+            p.developers?.map((d) => `${d.name} (${d.section})`).join("<br>") ||
+            "—";
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${p.name}</td>
+            <td>${
+              p.url ? `<a href="${p.url}" target="_blank">${p.url}</a>` : "—"
+            }</td>
+            <td>${p.image ? `<img src="${p.image}" width="50"/>` : "—"}</td>
+            <td>${
+              p.video
+                ? `<video src="${p.video}" width="100" controls></video>`
+                : "—"
+            }</td>
+            <td>${p.description || "—"}</td>
+            <td>${devs}</td>
+            <td>
+              <button class="icon-btn edit-icon" onclick="openModal(${i})"><i class="fas fa-edit"></i></button>
+              <button class="icon-btn delete-icon" onclick="deleteProject(${i})"><i class="fas fa-trash-alt"></i></button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      async function loadProjects() {
+        const res = await fetch("/api/projects");
+        projects = await res.json();
+        renderTable();
+      }
+
+      window.onload = loadProjects;
+    </script>
+  </body>
+</html>

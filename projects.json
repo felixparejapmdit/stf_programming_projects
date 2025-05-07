@@ -1,0 +1,188 @@
+[
+  {
+    "name": "Pangangasiwa Tracking App",
+    "url": "http://192.168.30.165:1244",
+    "description": "A tracking app to manage and monitor data effectively.",
+    "developers": [
+      {
+        "name": "Joshua Sinangote",
+        "section": "II-Bartimaeus1"
+      },
+      {
+        "name": "Shuncy John Paclar",
+        "section": "II-Bartimaeus123"
+      }
+    ],
+    "index": 0,
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    "name": "CFO App",
+    "url": "http://192.168.30.165:1327",
+    "description": "An app designed for the Chief Financial Officer's reporting.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Sean Zedrick Genzola",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Kapatid App",
+    "url": "http://192.168.30.165",
+    "description": "A social network app for connecting family and friends.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Ralph Jaren Villanueva",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Chapel Scheduler",
+    "url": "http://192.168.30.165:1247",
+    "description": "An app for scheduling chapel services and activities.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Arch Sein Cuambo",
+        "section": "II-Bartimaeus"
+      },
+      {
+        "name": "Tobayjeff Miranda",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Attendance",
+    "url": "http://192.168.30.165:12026",
+    "description": "A system to track and manage attendance for events and services.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Prince Lorenz Valentin",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Ministers App",
+    "url": "http://192.168.30.165",
+    "description": "An app for ministers to organize and track their work.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Kenneth John Beloy",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Nextcloud",
+    "url": "http://192.168.30.165:8089",
+    "description": "A platform for file synchronization and sharing.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Cedrick Rogelio",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Moodle",
+    "url": "",
+    "description": "An open-source learning platform for educators.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Ethan Buentipo",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Openedx",
+    "url": "",
+    "description": "A learning platform built for providing courses online.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Viernes",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Wordpress",
+    "url": "",
+    "description": "A popular content management system for building websites.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Ahmed",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Cars Reservation Table",
+    "url": "http://192.168.30.165",
+    "description": "A system for reserving cars and managing bookings.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": []
+  },
+  {
+    "name": "Nexcloud",
+    "url": "",
+    "description": "Cloud storage solution to access files from anywhere.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Patrick De Guia",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "Login/Logout",
+    "url": "http://192.168.30.165:1250",
+    "description": "A simple login/logout system for applications.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Mark Allain Silva",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  },
+  {
+    "name": "ELS - Editors LoungeSuite (Wordpress)",
+    "url": "http://192.168.30.165:8083",
+    "description": "A WordPress-based suite for managing editor activities.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "developers": [
+      {
+        "name": "Jelmar Delos Reye",
+        "section": "II-Bartimaeus"
+      }
+    ]
+  }
+]
