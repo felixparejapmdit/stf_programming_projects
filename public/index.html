@@ -331,7 +331,7 @@
       <div class="video-greeting">
         <!-- Thumbnail Image for the Video -->
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsc1FWtC0_IfFpZP6mCItr2atB4CgKKKWqsw&s"
+          src=""
           alt="Video Thumbnail"
           id="greetingVideoThumbnail"
           onclick="openFullScreen()"
@@ -431,7 +431,8 @@
       fetch("/api/projects")
         .then((res) => res.json())
         .then((data) => {
-          projects = data;
+          // Exclude the "admin" project
+          projects = data.filter((project) => project.name !== "admin");
           filterProjects();
         });
 
@@ -585,6 +586,37 @@
           this.classList.remove("open");
         }
       };
+
+      window.addEventListener("DOMContentLoaded", () => {
+        fetch("/api/projects")
+          .then((res) => res.json())
+          .then((projects) => {
+            const adminProject = projects.find((p) => p.name === "admin");
+
+            if (adminProject) {
+              // Set thumbnail image
+              const thumbnail = document.getElementById(
+                "greetingVideoThumbnail"
+              );
+              if (adminProject.image) {
+                thumbnail.src = adminProject.image;
+              }
+
+              // Set video source
+              const videoSource = document.querySelector(
+                "#fullscreenVideo source"
+              );
+              if (adminProject.video) {
+                videoSource.src = adminProject.video;
+                // Load the new source
+                document.getElementById("fullscreenVideo").load();
+              }
+            }
+          })
+          .catch((err) => {
+            console.error("Failed to load admin project data:", err);
+          });
+      });
     </script>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
