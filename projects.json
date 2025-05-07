@@ -185,13 +185,18 @@
       }
     ]
   },
-
   {
     "name": "admin",
     "url": "",
     "description": "",
+    "developers": [
+      {
+        "name": "",
+        "section": ""
+      }
+    ],
+    "index": 14,
     "image": "thumbnails/admin-thumb.jpg",
-    "video": "videos/admin-video.mp4",
-    "developers": []
+    "video": "videos/admin-video.mp4"
   }
 ]

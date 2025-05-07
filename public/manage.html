@@ -195,8 +195,6 @@
         const videoFile = document.getElementById("video").files[0];
 
         if (!name) return alert("Project name is required.");
-        if (!developerNames || !sections)
-          return alert("Developer names and sections are required.");
 
         const developers = developerNames.split(",").map((name, i) => ({
           name: name.trim(),
