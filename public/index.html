@@ -98,7 +98,6 @@
         }
       }
 
-      /* Video Greeting Section */
       .video-greeting {
         text-align: center;
         margin-bottom: 20px;
@@ -106,12 +105,15 @@
         flex: 1;
         cursor: pointer;
         margin-right: 50px;
-        width: 30%; /* Ensures the video container is 30% of the screen width */
+        width: 30%;
+        min-width: 200px; /* Optional: ensures it doesn’t get too narrow */
       }
 
       .video-greeting img {
         width: 100%;
         height: auto;
+        max-height: 400px; /* Keeps image height consistent */
+        object-fit: cover; /* Ensures image is nicely cropped if needed */
         cursor: pointer;
         border-radius: 8px;
         transition: transform 0.3s ease-in-out;
@@ -120,7 +122,6 @@
       .video-greeting img:hover {
         transform: scale(1.05);
       }
-
       /* Fullscreen Modal Styles */
       #videoModal {
         position: fixed;
@@ -335,6 +336,7 @@
           alt="Video Thumbnail"
           id="greetingVideoThumbnail"
           onclick="openFullScreen()"
+          class="responsive-thumbnail"
         />
       </div>
 
@@ -378,7 +380,7 @@
 
     <!-- Fullscreen Video Modal -->
     <div id="videoModal">
-      <video id="fullscreenVideo" controls>
+      <video id="fullscreenVideo" controls autoplay>
         <source src="sample.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -577,7 +579,10 @@
       // Open the fullscreen video modal
       function openFullScreen() {
         const modal = document.getElementById("videoModal");
+        const video = document.getElementById("fullscreenVideo");
+
         modal.classList.add("open");
+        video.play(); // Autoplay the video
       }
 
       // Close the fullscreen video modal
