@@ -60,6 +60,7 @@
             font-weight: 300;
             opacity: 0.8;
             word-wrap: break-word;
+            text-align: center;
           "
         >
           We humbly present po the websites and applications that our team has
@@ -112,6 +113,16 @@
         <div class="swiper-pagination"></div>
       </div>
     </div>
+
+    <footer class="site-footer">
+      <p>
+        Thank you po for all the guidance and support. We will continue to work
+        diligently and use this office to develop more applications that will
+        help in the Church Administration's projects po. Thank you so much po
+        for your love and care for all of us, we love you so much po.
+      </p>
+      <p>- STF Programming Team</p>
+    </footer>
 
     <script>
       let projects = [];
@@ -184,7 +195,7 @@
           const devs = project.developers
             .map(
               (dev) => `
-      <div style="text-align:left">
+      <div style="text-align:center">
         <strong>${dev.name}</strong><br />
         <em style="font-size: 0.9em; color: #666;">(${dev.section})</em>
       </div>
@@ -202,7 +213,7 @@
       <div>
         <h3>${project.name}</h3>
         <p>${project.description || "No description available."}</p>
-        <div class="developers"><strong>Developers:</strong><br>${devs}</div>
+        <div class="developers" style="text-align:center"><strong>Developers:</strong><br>${devs}</div>
         ${
           project.url
             ? `<a href="${project.url}" target="_blank">Open App</a>`
@@ -222,7 +233,7 @@
     }" alt="${project.name}" />
     <h3 style="margin-top: 10px;">${project.name}</h3>
     <p>${project.description || "No description available."}</p>
-    <div class="developers">${devs}</div>
+    <div class="developers" style="text-align:left">${devs}</div>
     ${
       project.url
         ? `<a href="${project.url}" target="_blank">Open App</a>`

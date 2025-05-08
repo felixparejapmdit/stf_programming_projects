@@ -95,7 +95,7 @@ header:hover {
 .video-greeting img {
   width: 100%;
   height: auto;
-  max-height: 400px; /* Keeps image height consistent */
+  max-height: 100%; /* Keeps image height consistent */
   object-fit: cover; /* Ensures image is nicely cropped if needed */
   cursor: pointer;
   border-radius: 8px;
@@ -306,4 +306,45 @@ header:hover {
   bottom: 10px;
   width: 100%;
   text-align: center;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 3em 1.5em;
+  background: linear-gradient(to right, #35424a, #45a049);
+  color: #fff;
+  font-size: 1.25rem;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease-in-out; /* Smooth hover transition */
+}
+
+.site-footer p {
+  margin: 1em 0;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.site-footer p:first-child {
+  font-style: italic; /* Stylize the thank you message */
+}
+
+.site-footer:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.site-footer p {
+  opacity: 0.9; /* Slight transparency */
+}
+
+.site-footer p:hover {
+  opacity: 1; /* Full opacity on hover for emphasis */
+}
+
+@media (max-width: 600px) {
+  .site-footer {
+    font-size: 0.85rem;
+    padding: 2em 1em;
+  }
 }
