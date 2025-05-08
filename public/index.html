@@ -71,7 +71,7 @@
 
     <!-- Fullscreen Video Modal -->
     <div id="videoModal">
-      <video id="fullscreenVideo" controls autoplay>
+      <video id="fullscreenVideo" controls>
         <source src="sample.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -188,14 +188,12 @@
         const container = document.getElementById("projectContainer");
         const carouselWrapper = document.querySelector(".swiper-wrapper");
 
-        container.innerHTML = "";
-        carouselWrapper.innerHTML = "";
 
         data.forEach((project) => {
           const devs = project.developers
             .map(
               (dev) => `
-      <div style="text-align:center">
+      <div>
         <strong>${dev.name}</strong><br />
         <em style="font-size: 0.9em; color: #666;">(${dev.section})</em>
       </div>
@@ -213,7 +211,7 @@
       <div>
         <h3>${project.name}</h3>
         <p>${project.description || "No description available."}</p>
-        <div class="developers" style="text-align:center"><strong>Developers:</strong><br>${devs}</div>
+        <div class="developers"><strong>Developers:</strong><br>${devs}</div>
         ${
           project.url
             ? `<a href="${project.url}" target="_blank">Open App</a>`
@@ -275,6 +273,21 @@
             },
           });
         }
+
+// Reset layout
+container.className = "container"; // reset base
+carouselWrapper.classList.remove("center-align");
+
+// Apply view-specific layout
+if (currentView === "list") {
+  container.classList.add("list", "left-align");
+} else if (currentView === "grid") {
+  container.classList.add("grid", "center-align");
+} else if (currentView === "carousel") {
+  carouselWrapper.classList.add("center-align");
+}
+
+
       }
 
       // Open the fullscreen video modal
@@ -283,13 +296,17 @@
         const video = document.getElementById("fullscreenVideo");
 
         modal.classList.add("open");
-        video.play(); // Autoplay the video
+  video.currentTime = 0; // optional: restart from beginning
+  video.play(); // Only play when clicked
       }
 
       // Close the fullscreen video modal
       document.getElementById("videoModal").onclick = function (e) {
         if (e.target === this) {
           this.classList.remove("open");
+            const video = document.getElementById("fullscreenVideo");
+    video.pause();
+    video.currentTime = 0;
         }
       };
 
@@ -323,6 +340,13 @@
             console.error("Failed to load admin project data:", err);
           });
       });
+
+        document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey && e.key === "0") {
+      e.preventDefault(); // Prevent browser's default zoom reset
+      window.location.href = "/manage.html";
+    }
+  });
     </script>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

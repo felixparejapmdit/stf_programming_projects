@@ -10,21 +10,27 @@
     />
   </head>
   <body>
-    <h2>Manage Projects</h2>
+    <div class="header-row">
+  <h2>Manage STF-Programming Projects</h2>
+  <a href="/" class="view-btn" title="View Main Page">
+    <i class="fas fa-eye"></i>
+  </a>
+</div>
     <button class="add-btn" onclick="openModal()">Add Project</button>
 
     <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>URL</th>
-          <th>Image</th>
-          <th>Video</th>
-          <th>Description</th>
-          <th>Developers</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>URL</th>
+    <th>Image</th>
+    <th>Video</th>
+    <th>Description</th>
+    <th>Developers</th>
+    <th>Actions</th>
+  </tr>
+</thead>
       <tbody id="projectTable"></tbody>
     </table>
 
@@ -141,35 +147,29 @@
         loadProjects();
       }
 
-      function renderTable() {
-        const tbody = document.getElementById("projectTable");
-        tbody.innerHTML = "";
-        projects.forEach((p, i) => {
-          const devs =
-            p.developers?.map((d) => `${d.name} (${d.section})`).join("<br>") ||
-            "—";
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${p.name}</td>
-            <td>${
-              p.url ? `<a href="${p.url}" target="_blank">${p.url}</a>` : "—"
-            }</td>
-            <td>${p.image ? `<img src="${p.image}" width="50"/>` : "—"}</td>
-            <td>${
-              p.video
-                ? `<video src="${p.video}" width="100" controls></video>`
-                : "—"
-            }</td>
-            <td>${p.description || "—"}</td>
-            <td>${devs}</td>
-            <td>
-              <button class="icon-btn edit-icon" onclick="openModal(${i})"><i class="fas fa-edit"></i></button>
-              <button class="icon-btn delete-icon" onclick="deleteProject(${i})"><i class="fas fa-trash-alt"></i></button>
-            </td>
-          `;
-          tbody.appendChild(row);
-        });
-      }
+  function renderTable() {
+  const tbody = document.getElementById("projectTable");
+  tbody.innerHTML = "";
+  projects.forEach((p, i) => {
+    const devs = p.developers?.map((d) => `${d.name} (${d.section})`).join("<br>") || "—";
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${p.name}</td>
+      <td>${p.url ? `<a href="${p.url}" target="_blank">${p.url}</a>` : "—"}</td>
+      <td>${p.image ? `<img src="${p.image}" width="50"/>` : "—"}</td>
+      <td>${p.video ? `<video src="${p.video}" width="100" controls></video>` : "—"}</td>
+      <td>${p.description || "—"}</td>
+      <td>${devs}</td>
+      <td class="actions">
+        <button class="icon-btn edit-icon" onclick="openModal(${i})"><i class="fas fa-edit"></i></button>
+        <button class="icon-btn delete-icon" onclick="deleteProject(${i})"><i class="fas fa-trash-alt"></i></button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
 
       async function loadProjects() {
         const res = await fetch("/api/projects");
