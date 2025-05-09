@@ -90,6 +90,7 @@ header p {
   justify-content: center;
   gap: 10px;
   margin: 20px;
+  margin-bottom: -2em;
 }
 
 .controls input,
