@@ -20,63 +20,43 @@
     <header>
       <!-- Video Greeting Section -->
       <div class="video-greeting">
-        <!-- Thumbnail Image for the Video -->
-        <img
-          src=""
-          alt="Video Thumbnail"
-          id="greetingVideoThumbnail"
-          onclick="openFullScreen()"
+        <video
+          id="greetingVideo"
           class="responsive-thumbnail"
-        />
+          muted
+          loop
+          controls
+          onclick="openFullScreen()"
+        >
+          <source src="sample.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
-      <div
-        class="header-text"
-        style="
-          width: 70%;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        "
-      >
-        <!-- Ensuring header text takes 70% width -->
-        <h1
-          style="
-            font-size: 2.5rem;
-            margin-bottom: 1em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            word-wrap: break-word;
-          "
-        >
-          Thank you po, Kapatid na Eduardo V. Manalo!
-        </h1>
-        <p
-          style="
-            font-size: 1.2rem;
-            line-height: 1.6;
-            font-weight: 300;
-            opacity: 0.8;
-            word-wrap: break-word;
-            text-align: center;
-            justify-content: center;
-          "
-        >
+      <div class="header-text">
+        <h1>Thank you po, Kapatid na Eduardo V. Manalo!</h1>
+        <p>
           We humbly present po the websites and applications that our team has
           developed.
         </p>
       </div>
     </header>
 
-    <!-- Fullscreen Video Modal -->
+    <!-- Fullscreen Modal -->
     <div id="videoModal">
       <video id="fullscreenVideo" controls>
         <source src="sample.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
+
+    <!-- Fullscreen Video Modal -->
+    <!-- <div id="videoModal" style="display: none">
+      <video id="fullscreenVideo" controls>
+        <source src="sample.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div> -->
 
     <!-- Controls Section -->
     <div class="controls">
@@ -118,7 +98,6 @@
     <div
       id="soundPrompt"
       style="
-        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -132,10 +111,11 @@
         flex-direction: column;
         z-index: 9999;
         font-family: sans-serif;
+        cursor: pointer;
       "
     >
       <p style="font-size: 1.2rem; margin-bottom: 1rem; text-align: center">
-        Tap to enable sound
+        Tap to enable sound and play video
       </p>
     </div>
 
@@ -305,89 +285,67 @@
       }
 
       window.addEventListener("DOMContentLoaded", () => {
+        const greetingVideo = document.getElementById("greetingVideo");
+        const soundPrompt = document.getElementById("soundPrompt");
+
+        // Load admin video if available
         fetch("/api/projects")
           .then((res) => res.json())
           .then((projects) => {
             const adminProject = projects.find((p) => p.name === "admin");
 
-            if (adminProject) {
-              const thumbnail = document.getElementById(
-                "greetingVideoThumbnail"
-              );
-              const video = document.getElementById("fullscreenVideo");
-              const videoSource = document.querySelector(
-                "#fullscreenVideo source"
-              );
-              const modal = document.getElementById("videoModal");
-              const prompt = document.getElementById("soundPrompt");
-
-              if (adminProject.image) thumbnail.src = adminProject.image;
+            if (adminProject && greetingVideo) {
+              const videoSource = greetingVideo.querySelector("source");
               if (adminProject.video) {
                 videoSource.src = adminProject.video;
-                video.load();
-
-                modal.classList.add("open");
-                video.muted = false;
-
-                // End-of-video cleanup
-                video.onended = () => {
-                  modal.classList.remove("open");
-                  video.currentTime = 0;
-                  prompt.style.display = "none";
-                };
+                greetingVideo.load();
               }
             }
           })
           .catch((err) => {
             console.error("Failed to load admin project data:", err);
           });
+
+        // Wait for user interaction to play the video
+        if (soundPrompt && greetingVideo) {
+          soundPrompt.style.display = "flex";
+
+          soundPrompt.addEventListener("click", () => {
+            greetingVideo.muted = false;
+            greetingVideo.play();
+            soundPrompt.style.display = "none";
+          });
+        }
       });
 
-      // Click anywhere to unmute and play
-      document.getElementById("soundPrompt").addEventListener("click", () => {
-        const video = document.getElementById("fullscreenVideo");
-        const prompt = document.getElementById("soundPrompt");
-        const modal = document.getElementById("videoModal");
-
-        prompt.style.display = "none";
-        modal.classList.add("open");
-        video.muted = false;
-        video.currentTime = 0;
-        video.play();
-
-        hasVideoPlayed = true; // ✅ Set this here
-      });
-
+      // Open Fullscreen
       function openFullScreen() {
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("fullscreenVideo");
 
-        modal.classList.add("open");
-        video.pause();
+        modal.style.display = "flex";
         video.currentTime = 0;
         video.muted = false;
-
-        if (hasVideoPlayed) {
-          video.play();
-          hasVideoPlayed = true;
-        }
+        video.play();
       }
 
-      // Close modal
-      document.getElementById("videoModal").onclick = function (e) {
-        if (e.target === this) {
-          const video = document.getElementById("fullscreenVideo");
-          video.pause();
-          video.currentTime = 0;
-          this.classList.remove("open");
-          document.getElementById("soundPrompt").style.display = "none";
-        }
-      };
+      // Close modal when clicking outside
+      document
+        .getElementById("videoModal")
+        ?.addEventListener("click", (event) => {
+          const modal = document.getElementById("videoModal");
+          if (event.target === modal) {
+            modal.style.display = "none";
+            const video = document.getElementById("fullscreenVideo");
+            video.pause();
+            video.currentTime = 0;
+          }
+        });
 
       document.addEventListener("keydown", function (e) {
         if (e.ctrlKey && e.key === "0") {
           e.preventDefault(); // Prevent browser's default zoom reset
-          window.location.href = "/2025-May-Projects/manage.html";
+          window.location.href = "/manage.html";
         }
       });
     </script>
