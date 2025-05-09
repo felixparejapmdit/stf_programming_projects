@@ -228,6 +228,12 @@ header p {
   background: #09c454; /* darker shade for hover effect */
 }
 
+.card a.card-button svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
 /* === Developers Footer === */
 .card .developers-hover {
   position: absolute;

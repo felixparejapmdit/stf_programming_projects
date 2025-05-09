@@ -184,25 +184,30 @@
             )
             .join("");
 
-          // CARD (Grid/List)
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-      <img src="${
-        project.image || "https://dummyimage.com/300x150/000/fff"
-      }" alt="${project.name}">
-      <div class="card-overlay"></div>
-      <div class="card-content">
-        <h3>${project.name}</h3>
-        <p>${project.description || "No description available."}</p>
-      </div>
-      ${
-        project.url
-          ? `<a class="card-button" href="${project.url}" target="_blank">Open App</a>`
-          : ""
-      }
-      <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
-    `;
+  <img src="${
+    project.image || "https://dummyimage.com/300x150/000/fff"
+  }" alt="${project.name}">
+  <div class="card-overlay"></div>
+  <div class="card-content">
+    <h3>${project.name}</h3>
+    <p>${project.description || "No description available."}</p>
+  </div>
+  ${
+    project.url
+      ? `<a class="card-button" href="${project.url}" target="_blank" aria-label="Open App">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
+              <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" x2="21" y1="14" y2="3"></line>
+            </svg>
+         </a>`
+      : ""
+  }
+  <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
+`;
           container.appendChild(card);
 
           // SLIDE (Carousel)
@@ -221,7 +226,13 @@
         </div>
         ${
           project.url
-            ? `<a href="${project.url}" target="_blank" class="card-button">Open App</a>`
+            ? `<a href="${project.url}" target="_blank" class="card-button" aria-label="Open App">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
+                <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" x2="21" y1="14" y2="3"></line>
+              </svg>
+           </a>`
             : ""
         }
         <div class="developers-hover">
