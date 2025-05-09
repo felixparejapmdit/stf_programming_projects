@@ -16,6 +16,8 @@ html {
 
 .hero-header {
   width: 100vw; /* full width always */
+  height: 100vh; /* Full screen height */
+  min-height: 100vh; /* Ensures minimum height fills the screen */
   background: linear-gradient(to right, #35424a, #45a049);
   padding: 4em 2em;
   color: white;
@@ -71,13 +73,14 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; /* Add this */
   gap: 1em;
   text-align: center;
 }
 
 @media (min-width: 768px) {
   .hero-header .header-text {
-    text-align: left;
+    text-align: center;
   }
 }
 
@@ -104,7 +107,7 @@ html {
   .hero-header h1,
   .hero-header p {
     margin: 0;
-    text-align: left;
+    text-align: center;
   }
 }
 
