@@ -14,7 +14,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/2025-May-Projects/index.css" />
   </head>
   <body>
     <header>
@@ -213,6 +213,10 @@
         const container = document.getElementById("projectContainer");
         const carouselWrapper = document.querySelector(".swiper-wrapper");
 
+        // ✅ Clear previous content to avoid duplication
+        container.innerHTML = "";
+        carouselWrapper.innerHTML = "";
+
         data.forEach((project) => {
           const devs = project.developers
             .map(
@@ -403,7 +407,7 @@
       document.addEventListener("keydown", function (e) {
         if (e.ctrlKey && e.key === "0") {
           e.preventDefault(); // Prevent browser's default zoom reset
-          window.location.href = "/manage.html";
+          window.location.href = "/2025-May-Projects/manage.html";
         }
       });
     </script>

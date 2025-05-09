@@ -10,6 +10,12 @@ const DATA_PATH = path.join(__dirname, "projects.json");
 app.use(express.json());
 app.use(express.static("public"));
 
+// ✅ Serve the /2025-May-Projects/ subfolder
+app.use(
+  "/2025-May-Projects",
+  express.static(path.join(__dirname, "public/2025-May-Projects"))
+);
+
 // Read all projects
 app.get("/api/projects", (req, res) => {
   const data = fs.existsSync(DATA_PATH) ? fs.readFileSync(DATA_PATH) : "[]";
