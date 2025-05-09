@@ -65,6 +65,19 @@ header:hover {
   transform: translateY(-10px);
 }
 
+/* Optional: handle ultra-small screens more gracefully */
+@media (max-width: 480px) {
+  .video-greeting {
+    width: 90%;
+    margin-right: 0;
+    align-items: center;
+  }
+
+  .video-greeting img {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -80,31 +93,33 @@ header:hover {
     font-size: 1rem;
   }
 }
-
 .video-greeting {
   text-align: center;
   margin-bottom: 20px;
   position: relative;
   flex: 1;
+  margin: 20px; /* ✅ Updated to apply 20px on all sides */
   cursor: pointer;
-  margin-right: 50px;
   width: 30%;
-  min-width: 200px; /* Optional: ensures it doesn’t get too narrow */
+  min-width: 200px;
+  max-width: 480px; /* ✅ Added to allow a larger thumbnail within limit */
 }
 
 .video-greeting img {
   width: 100%;
   height: auto;
-  max-height: 100%; /* Keeps image height consistent */
-  object-fit: cover; /* Ensures image is nicely cropped if needed */
+  max-height: 100%;
+  object-fit: cover;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 12px; /* ✅ Slightly rounder corners */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); /* ✅ Enhanced shadow */
   transition: transform 0.3s ease-in-out;
 }
 
 .video-greeting img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08); /* ✅ Slightly stronger zoom effect */
 }
+
 /* Fullscreen Modal Styles */
 #videoModal {
   position: fixed;
@@ -194,7 +209,6 @@ header:hover {
   justify-content: center; /* center grid content */
   text-align: center;
 }
-
 
 .card {
   background: white;
