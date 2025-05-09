@@ -133,21 +133,9 @@
         font-family: sans-serif;
       "
     >
-      <p style="font-size: 1.2rem; margin-bottom: 1rem">Tap to enable sound</p>
-      <button
-        onclick="resumeWithSound()"
-        style="
-          padding: 0.8rem 1.5rem;
-          font-size: 1rem;
-          background-color: #ffffff;
-          color: #000000;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        "
-      >
-        Enable Sound
-      </button>
+      <p style="font-size: 1.2rem; margin-bottom: 1rem; text-align: center">
+        Tap to enable sound
+      </p>
     </div>
 
     <footer class="site-footer">
@@ -165,7 +153,7 @@
       let currentView = "grid";
       let searchText = "";
       let sortOrder = "az";
-
+      let hasVideoPlayed = false; // Declare this globally
       // Fetch projects
       fetch("/api/projects")
         .then((res) => res.json())
@@ -338,6 +326,7 @@
                 "#fullscreenVideo source"
               );
               const modal = document.getElementById("videoModal");
+              const prompt = document.getElementById("soundPrompt");
 
               if (adminProject.image) thumbnail.src = adminProject.image;
               if (adminProject.video) {
@@ -347,25 +336,19 @@
                 modal.classList.add("open");
                 video.muted = false;
 
-                video
-                  .play()
-                  .then(() => {
-                    // Autoplay with sound succeeded
-                  })
-                  .catch(() => {
-                    // Fallback: try muted autoplay, then show sound prompt
-                    video.muted = true;
-                    video.play().then(() => {
-                      document.getElementById("soundPrompt").style.display =
-                        "flex";
-                    });
-                  });
+                // video.play().catch(() => {
+                //   // Fallback: try muted autoplay, then show prompt overlay
+                //   video.muted = true;
+                //   video.play().then(() => {
+                //     prompt.style.display = "block";
+                //   });
+                // });
 
-                // Hide modal after video ends
+                // End-of-video cleanup
                 video.onended = () => {
                   modal.classList.remove("open");
                   video.currentTime = 0;
-                  document.getElementById("soundPrompt").style.display = "none";
+                  prompt.style.display = "none";
                 };
               }
             }
@@ -375,31 +358,37 @@
           });
       });
 
-      // When user clicks Enable Sound
-      function resumeWithSound() {
-        const modal = document.getElementById("videoModal");
+      // Click anywhere to unmute and play
+      document.getElementById("soundPrompt").addEventListener("click", () => {
         const video = document.getElementById("fullscreenVideo");
         const prompt = document.getElementById("soundPrompt");
+        const modal = document.getElementById("videoModal");
 
         prompt.style.display = "none";
-        video.pause();
+        modal.classList.add("open");
         video.muted = false;
         video.currentTime = 0;
         video.play();
-      }
 
-      // Manual click to replay unmuted
+        hasVideoPlayed = true; // ✅ Set this here
+      });
+
       function openFullScreen() {
         const modal = document.getElementById("videoModal");
         const video = document.getElementById("fullscreenVideo");
+
         modal.classList.add("open");
         video.pause();
         video.currentTime = 0;
         video.muted = false;
-        video.play();
+
+        if (hasVideoPlayed) {
+          video.play();
+          hasVideoPlayed = true;
+        }
       }
 
-      // Close on outside click
+      // Close modal
       document.getElementById("videoModal").onclick = function (e) {
         if (e.target === this) {
           const video = document.getElementById("fullscreenVideo");
