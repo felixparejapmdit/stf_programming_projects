@@ -90,7 +90,6 @@ header p {
   justify-content: center;
   gap: 10px;
   margin: 20px;
-  margin-bottom: -2em;
 }
 
 .controls input,
@@ -276,6 +275,7 @@ header p {
   text-align: center;
   margin: 0 10px; /* horizontal spacing between slides */
   box-sizing: border-box;
+  margin-top: 4em;
 }
 
 .swiper-container {
