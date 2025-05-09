@@ -125,6 +125,7 @@ header p {
   box-shadow: 0 0 6px rgba(69, 160, 73, 0.5);
   outline: none;
 }
+
 /* === Container Grid Layout === */
 .container.grid {
   display: grid;
@@ -368,4 +369,33 @@ header p {
     font-size: 0.85rem;
     padding: 2em 1em;
   }
+}
+
+/* Grid: center */
+.container.grid.center-align {
+  justify-content: center;
+  text-align: center;
+}
+
+/* List View Specific Layout */
+.container.list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* vertical spacing between cards */
+  padding: 50px 20px;
+  max-width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* List: left */
+.container.list.left-align {
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Carousel: center */
+.swiper-wrapper.center-align {
+  justify-content: center;
+  text-align: center;
 }
