@@ -186,7 +186,7 @@ header p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #35424a;
+  background: #039c40;
   color: white;
   padding: 0.5em 1em;
   border-radius: 5px;
@@ -203,6 +203,10 @@ header p {
   pointer-events: auto;
 }
 
+/* Change background on button hover */
+.card a.card-button:hover {
+  background: #09c454; /* darker shade for hover effect */
+}
 /* Developers Footer */
 .card .developers-hover {
   position: absolute;
@@ -283,7 +287,7 @@ header p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #35424a;
+  background-color: #039c40;
   color: white;
   padding: 0.5em 1em;
   border-radius: 5px;
@@ -300,6 +304,10 @@ header p {
   pointer-events: auto;
 }
 
+/* Change background on button hover */
+.swiper-slide a.card-button:hover {
+  background: #09c454; /* darker shade for hover effect */
+}
 /* Developers (carousel) */
 .swiper-slide .developers-hover {
   position: absolute;
