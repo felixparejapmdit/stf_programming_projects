@@ -114,6 +114,42 @@
       </div>
     </div>
 
+    <div
+      id="soundPrompt"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+        font-family: sans-serif;
+      "
+    >
+      <p style="font-size: 1.2rem; margin-bottom: 1rem">Tap to enable sound</p>
+      <button
+        onclick="resumeWithSound()"
+        style="
+          padding: 0.8rem 1.5rem;
+          font-size: 1rem;
+          background-color: #ffffff;
+          color: #000000;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        "
+      >
+        Enable Sound
+      </button>
+    </div>
+
     <footer class="site-footer">
       <p>
         Thank you po for all the guidance and support. We will continue to work
@@ -187,7 +223,6 @@
       function renderProjects(data) {
         const container = document.getElementById("projectContainer");
         const carouselWrapper = document.querySelector(".swiper-wrapper");
-
 
         data.forEach((project) => {
           const devs = project.developers
@@ -274,41 +309,19 @@
           });
         }
 
-// Reset layout
-container.className = "container"; // reset base
-carouselWrapper.classList.remove("center-align");
+        // Reset layout
+        container.className = "container"; // reset base
+        carouselWrapper.classList.remove("center-align");
 
-// Apply view-specific layout
-if (currentView === "list") {
-  container.classList.add("list", "left-align");
-} else if (currentView === "grid") {
-  container.classList.add("grid", "center-align");
-} else if (currentView === "carousel") {
-  carouselWrapper.classList.add("center-align");
-}
-
-
-      }
-
-      // Open the fullscreen video modal
-      function openFullScreen() {
-        const modal = document.getElementById("videoModal");
-        const video = document.getElementById("fullscreenVideo");
-
-        modal.classList.add("open");
-  video.currentTime = 0; // optional: restart from beginning
-  video.play(); // Only play when clicked
-      }
-
-      // Close the fullscreen video modal
-      document.getElementById("videoModal").onclick = function (e) {
-        if (e.target === this) {
-          this.classList.remove("open");
-            const video = document.getElementById("fullscreenVideo");
-    video.pause();
-    video.currentTime = 0;
+        // Apply view-specific layout
+        if (currentView === "list") {
+          container.classList.add("list", "left-align");
+        } else if (currentView === "grid") {
+          container.classList.add("grid", "center-align");
+        } else if (currentView === "carousel") {
+          carouselWrapper.classList.add("center-align");
         }
-      };
+      }
 
       window.addEventListener("DOMContentLoaded", () => {
         fetch("/api/projects")
@@ -317,22 +330,43 @@ if (currentView === "list") {
             const adminProject = projects.find((p) => p.name === "admin");
 
             if (adminProject) {
-              // Set thumbnail image
               const thumbnail = document.getElementById(
                 "greetingVideoThumbnail"
               );
-              if (adminProject.image) {
-                thumbnail.src = adminProject.image;
-              }
-
-              // Set video source
+              const video = document.getElementById("fullscreenVideo");
               const videoSource = document.querySelector(
                 "#fullscreenVideo source"
               );
+              const modal = document.getElementById("videoModal");
+
+              if (adminProject.image) thumbnail.src = adminProject.image;
               if (adminProject.video) {
                 videoSource.src = adminProject.video;
-                // Load the new source
-                document.getElementById("fullscreenVideo").load();
+                video.load();
+
+                modal.classList.add("open");
+                video.muted = false;
+
+                video
+                  .play()
+                  .then(() => {
+                    // Autoplay with sound succeeded
+                  })
+                  .catch(() => {
+                    // Fallback: try muted autoplay, then show sound prompt
+                    video.muted = true;
+                    video.play().then(() => {
+                      document.getElementById("soundPrompt").style.display =
+                        "flex";
+                    });
+                  });
+
+                // Hide modal after video ends
+                video.onended = () => {
+                  modal.classList.remove("open");
+                  video.currentTime = 0;
+                  document.getElementById("soundPrompt").style.display = "none";
+                };
               }
             }
           })
@@ -341,12 +375,47 @@ if (currentView === "list") {
           });
       });
 
-        document.addEventListener("keydown", function (e) {
-    if (e.ctrlKey && e.key === "0") {
-      e.preventDefault(); // Prevent browser's default zoom reset
-      window.location.href = "/manage.html";
-    }
-  });
+      // When user clicks Enable Sound
+      function resumeWithSound() {
+        const modal = document.getElementById("videoModal");
+        const video = document.getElementById("fullscreenVideo");
+        const prompt = document.getElementById("soundPrompt");
+
+        prompt.style.display = "none";
+        video.pause();
+        video.muted = false;
+        video.currentTime = 0;
+        video.play();
+      }
+
+      // Manual click to replay unmuted
+      function openFullScreen() {
+        const modal = document.getElementById("videoModal");
+        const video = document.getElementById("fullscreenVideo");
+        modal.classList.add("open");
+        video.pause();
+        video.currentTime = 0;
+        video.muted = false;
+        video.play();
+      }
+
+      // Close on outside click
+      document.getElementById("videoModal").onclick = function (e) {
+        if (e.target === this) {
+          const video = document.getElementById("fullscreenVideo");
+          video.pause();
+          video.currentTime = 0;
+          this.classList.remove("open");
+          document.getElementById("soundPrompt").style.display = "none";
+        }
+      };
+
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "0") {
+          e.preventDefault(); // Prevent browser's default zoom reset
+          window.location.href = "/manage.html";
+        }
+      });
     </script>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
