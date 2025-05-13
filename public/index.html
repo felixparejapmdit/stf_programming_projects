@@ -26,11 +26,13 @@
       </div>
 
       <div class="header-text">
-        <h1>Thank you po, Kapatid na Eduardo V. Manalo!</h1>
+        <h2>THANK YOU PO!</h2>
+        <h2>KAPATID NA EDUARDO V. MANALO</h2>
         <p>
           We humbly present po the websites and applications that our team has
           developed.
         </p>
+        <h4>STF PROGRAMMING TEAM</h4>
       </div>
     </header>
 
@@ -42,10 +44,10 @@
         placeholder="Search projects..."
         oninput="filterProjects()"
       />
-      <select id="sortSelect" onchange="filterProjects()">
+      <!-- <select id="sortSelect" onchange="filterProjects()">
         <option value="az">Sort A–Z</option>
         <option value="za">Sort Z–A</option>
-      </select>
+      </select> -->
 
       <!-- View Icons -->
       <i class="fa fa-th-large" onclick="setView('grid')" title="Grid View"></i>
@@ -109,7 +111,7 @@
       let projects = [];
       let currentView = "grid";
       let searchText = "";
-      let sortOrder = "az";
+      // let sortOrder = "az";
       let hasVideoPlayed = false; // Declare this globally
       // Fetch projects
       fetch("/api/projects")
@@ -142,7 +144,7 @@
       // Filter projects
       function filterProjects() {
         searchText = document.getElementById("searchInput").value.toLowerCase();
-        sortOrder = document.getElementById("sortSelect").value;
+        //sortOrder = document.getElementById("sortSelect").value;
 
         let filtered = projects.filter(
           (p) =>
@@ -150,19 +152,19 @@
             (p.description && p.description.toLowerCase().includes(searchText))
         );
 
-        filtered.sort((a, b) => {
-          return sortOrder === "az"
-            ? a.name.localeCompare(b.name)
-            : b.name.localeCompare(a.name);
-        });
+        // filtered.sort((a, b) => {
+        //   return sortOrder === "az"
+        //     ? a.name.localeCompare(b.name)
+        //     : b.name.localeCompare(a.name);
+        // });
 
         renderProjects(filtered);
       }
 
-      function setSort(order) {
-        sortOrder = order; // make sure this updates the main variable
-        filterProjects();
-      }
+      // function setSort(order) {
+      //   sortOrder = order; // make sure this updates the main variable
+      //   filterProjects();
+      // }
 
       function renderProjects(data) {
         const container = document.getElementById("projectContainer");
@@ -175,41 +177,62 @@
           const devs = project.developers
             .map(
               (dev) => `
-      <div>
-        <strong>${dev.name}</strong><br />
-        <em style="font-size: 0.9em; color: #fff;">(${dev.section})</em>
-      </div>
-    `
+          <div>
+            <strong>${dev.name}</strong><br />
+            <em style="font-size: 0.9em; color: #fff;">(${dev.section})</em>
+          </div>
+        `
             )
             .join("");
 
+          const isStudentLocator = project.name === "Student Locator";
+
+          // Start with empty buttons
+          let buttons = `<div class="card-buttons">`;
+
+          if (project.url) {
+            buttons += `<a class="card-button" href="${project.url}" target="_blank" aria-label="Open App">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
+      <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" x2="21" y1="14" y2="3"></line>
+    </svg>
+  </a>`;
+          }
+
+          if (isStudentLocator) {
+            buttons += `<a class="card-button" href="student-locator-video.html" title="Play Video">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="lucide lucide-play-circle">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="10 8 16 12 10 16 10 8" />
+    </svg>
+  </a>`;
+          }
+
+          buttons += `</div>`;
+
+          // GRID / LIST VIEW CARD
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-  <img src="${
-    project.image || "https://dummyimage.com/300x150/000/fff"
-  }" alt="${project.name}">
-  <div class="card-overlay"></div>
-  <div class="card-content">
-    <h3>${project.name}</h3>
-    <p>${project.description || "No description available."}</p>
-  </div>
-  ${
-    project.url
-      ? `<a class="card-button" href="${project.url}" target="_blank" aria-label="Open App">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
-              <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" x2="21" y1="14" y2="3"></line>
-            </svg>
-         </a>`
-      : ""
-  }
+      <img src="${
+        project.image || "https://dummyimage.com/300x150/000/fff"
+      }" alt="${project.name}">
+      <div class="card-overlay"></div>
+   <div class="card-content">
+  <h3>${project.name}</h3>
+  <p>${project.description || "No description available."}</p>
+  ${buttons}
   <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
-`;
+</div>
+
+    `;
           container.appendChild(card);
 
-          // SLIDE (Carousel)
+          // CAROUSEL SLIDE
           const slide = document.createElement("div");
           slide.className = "swiper-slide";
           slide.innerHTML = `
@@ -218,22 +241,12 @@
           project.image || "https://dummyimage.com/300x150/000/fff"
         }" alt="${project.name}" />
         <div class="card-overlay"></div>
-
         <div class="card-content">
           <h3>${project.name}</h3>
           <p>${project.description || "No description available."}</p>
         </div>
-        ${
-          project.url
-            ? `<a href="${project.url}" target="_blank" class="card-button" aria-label="Open App">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
-                <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" x2="21" y1="14" y2="3"></line>
-              </svg>
-           </a>`
-            : ""
-        }
+      ${buttons}
+
         <div class="developers-hover">
           <strong>Developers:</strong><br>${devs}
         </div>

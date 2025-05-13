@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Locator Video</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .video-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      video {
+        width: 100%;
+        height: auto;
+        max-height: 80vh;
+        object-fit: contain;
+        display: block;
+        border-radius: 10px;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: rgba(0, 0, 0, 0.6);
+        text-align: center;
+        z-index: 2;
+        cursor: pointer;
+      }
+
+      .back-button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        z-index: 3;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .back-button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      }
+
+      .back-button svg {
+        stroke: currentColor;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-container">
+      <div class="overlay" onclick="playVideo()">
+        Tap the screen to play video
+      </div>
+
+      <video id="studentVideo" playsinline controls muted>
+        <source src="videos/admin-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <a class="back-button" href="index.html" title="Back to Projects">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-left"
+        >
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+        Back to Projects
+      </a>
+    </div>
+
+    <script>
+      function playVideo() {
+        const video = document.getElementById("studentVideo");
+        const overlay = document.querySelector(".overlay");
+        video.muted = false;
+        video.play().catch((err) => console.error("Playback failed:", err));
+        overlay.style.display = "none";
+      }
+    </script>
+  </body>
+</html>

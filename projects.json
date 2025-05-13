@@ -198,5 +198,18 @@
     "index": 14,
     "image": "thumbnails/admin-thumb.jpg",
     "video": "videos/admin-video.mp4"
+  },
+  {
+    "name": "Student Locator",
+    "url": "http://appdev.sfm-stf.net/2025-May-Loracator/",
+    "description": "An app developed to track the entries of students to SFM campus and facilities.",
+    "image": "https://media.istockphoto.com/id/1334591614/photo/man-using-digital-tablet-online-connect-to-internet-banking-currency-exchange-online-shopping.jpg?s=2048x2048&w=is&k=20&c=i4g0apzIPwkQ-3Iww4YYCrcNncrV5812m39vwUuU9m8=",
+    "video": "",
+    "developers": [
+      {
+        "name": "Jelmar Delos Reye",
+        "section": "II-Bartimaeus"
+      }
+    ]
   }
 ]
