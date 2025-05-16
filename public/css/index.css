@@ -159,8 +159,7 @@ html {
   justify-content: center;
   box-sizing: border-box;
 }
-
-/* === Card Style === */
+/* === Common Card Style === */
 .card {
   position: relative;
   background: white;
@@ -186,7 +185,7 @@ html {
   width: 100%;
   height: 150px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
 }
 
 .card h3 {
@@ -197,6 +196,7 @@ html {
 .card p {
   font-size: 0.95em;
   color: #555;
+  padding-bottom: 40px;
 }
 
 /* === Card Overlay === */
@@ -206,7 +206,7 @@ html {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(30, 30, 30, 0.4); /* semi-transparent black */
+  background: rgba(30, 30, 30, 0.4);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1;
@@ -218,52 +218,51 @@ html {
   opacity: 1;
 }
 
-/* Ensure card-buttons are positioned correctly */
+/* === Card Buttons === */
 .card-buttons {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  pointer-events: none;
   display: flex;
   gap: 0.75em;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 3;
 }
 
-/* Make buttons always visible and clickable */
-.card-buttons a.card-button {
-  background: #039c40;
+.card:hover .card-buttons {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.card-button {
+  background-color: #039c40;
   color: white;
   padding: 0.5em 1em;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
-  transition: background 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: background 0.3s ease;
 }
 
-.card:hover .card-buttons a.card-button {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.card-buttons a.card-button:hover {
+.card-button:hover {
   background: #09c454;
 }
 
-.card-buttons a.card-button svg {
+.card-button svg {
   width: 24px;
   height: 24px;
   display: block;
 }
 
 /* === Developers Footer === */
-.card .developers-hover {
+.developers-hover {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -279,7 +278,7 @@ html {
   transition: transform 0.3s ease, opacity 0.3s ease;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  z-index: 3; /* on top of overlay and button */
+  z-index: 3;
 }
 
 .card:hover .developers-hover {
@@ -287,147 +286,53 @@ html {
   transform: translateY(0);
 }
 
-/* === Carousel Slide === */
-.swiper-slide > div {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  background: #fff;
-  border-radius: 12px;
-  padding: 1em;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 100%;
-  height: 300px; /* Same height as the card image + content */
-  text-align: center;
-  margin: 0 10px; /* horizontal spacing between slides */
-  box-sizing: border-box;
-  margin-top: 4em;
-}
-
+/* === Swiper (Carousel) Container === */
 .swiper-container {
-  padding-bottom: 80px; /* enough space for pagination */
+  width: 100%;
   max-width: 1300px;
+  padding: 2em 1em 80px;
+  box-sizing: border-box;
   margin: auto;
   position: relative;
-  height: 100%; /* Ensure the swiper container fills the available height */
+  overflow: visible;
 }
 
-/* Image inside slide */
-.swiper-slide img {
-  width: 100%;
-  height: 150px; /* Match image height in grid */
-  object-fit: cover;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
-
-/* Ensure content height inside swiper-slide */
-.swiper-slide .card-content {
-  height: 150px; /* Adjust content height for consistency */
-  padding: 10px 16px 0;
-  margin: 0;
-}
-/* Text inside slide */
-.swiper-slide h3,
-.swiper-slide p {
-  padding: 10px 16px 0;
-  margin: 0;
-}
-
-.swiper-slide p {
-  font-size: 0.95em;
-  color: #555;
-  padding-bottom: 40px;
-}
-/* === Swiper Slide Buttons === */
-.swiper-slide .card-buttons {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+/* === Swiper Wrapper === */
+.swiper-wrapper {
   display: flex;
-  gap: 10px;
-  transform: translate(-50%, -50%) scale(0.8);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 2;
+  align-items: stretch;
 }
 
-.swiper-slide:hover .card-buttons {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.swiper-slide .card-button {
-  background-color: #039c40;
-  color: white;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
-}
-
-.swiper-slide .card-button:hover {
-  background: #09c454;
-}
-
-.swiper-slide .card-button svg {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-.swiper-slide .card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(30, 30, 30, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 1;
-  pointer-events: none;
-  border-radius: 12px;
-}
-
-.swiper-slide:hover .card-overlay {
-  opacity: 1;
-}
-
-/* Developers (carousel) */
-.swiper-slide .developers-hover {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+/* === Swiper Slide === */
+.swiper-slide {
+  flex-shrink: 0;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px 12px;
-  font-size: 0.85em;
-  text-align: left;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  z-index: 3; /* Ensure it's on top of overlay and button */
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
 }
 
-.swiper-slide:hover .developers-hover {
-  opacity: 1;
-  transform: translateY(0);
+/* === Carousel Card Inner Container === */
+.swiper-slide > .card {
+  width: 100%;
+  max-width: 300px;
+  height: 300px;
+  margin-top: 4em;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  flex-direction: column;
+  position: relative;
+  background: #fff;
+  text-align: center;
 }
 
-/* Fix pagination below cards */
+.swiper-slide:hover > .card {
+  transform: translateY(-5px);
+}
+
+/* === Pagination and Navigation Buttons === */
 .swiper-pagination {
   position: absolute;
   bottom: 10px;
@@ -437,99 +342,95 @@ html {
   z-index: 10;
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+  color: #039c40;
+  width: 40px;
+  height: 40px;
+  top: 45%;
+  border-radius: 50%;
+  background: rgba(3, 156, 64, 0.15);
+  transition: background-color 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: rgba(3, 156, 64, 0.35);
+}
+
+/* === Responsive === */
+@media (min-width: 600px) {
+  .swiper-slide > .card {
+    max-width: 320px;
+    height: 320px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .swiper-slide > .card {
+    max-width: 280px;
+    height: 300px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .swiper-slide > .card {
+    max-width: 300px;
+    height: 300px;
+  }
+}
+
+/* === Container Grid Style === */
+.container.grid {
+  display: grid;
+  gap: 1em;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  justify-content: center;
+  padding: 1em;
+}
+
+#projectContainer {
+  display: grid;
+}
+
+#carouselContainer {
+  display: none;
+}
+
 .site-footer {
   text-align: center;
-  padding: 3em 1.5em;
+  padding: 1.5em 1em; /* Reduced height by 50% */
   background: linear-gradient(to right, #35424a, #45a049);
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1rem; /* Adjusted for smaller height */
   border-top: 1px solid #ddd;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: all 0.3s ease-in-out; /* Smooth hover transition */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 .site-footer p {
-  margin: 1em 0;
-  line-height: 1.8;
+  margin: 0.75em 0;
+  line-height: 1.4;
   font-weight: 300;
+  opacity: 0.9;
 }
 
 .site-footer p:first-child {
-  font-style: italic; /* Stylize the thank you message */
+  font-style: italic;
 }
 
 .site-footer:hover {
-  transform: translateY(-5px); /* Slight lift effect on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-}
-
-.site-footer p {
-  opacity: 0.9; /* Slight transparency */
+  transform: translateY(-3px); /* Slight hover lift */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .site-footer p:hover {
-  opacity: 1; /* Full opacity on hover for emphasis */
+  opacity: 1;
 }
 
 @media (max-width: 600px) {
   .site-footer {
     font-size: 0.85rem;
-    padding: 2em 1em;
+    padding: 1em 0.75em;
   }
-}
-
-/* Grid: center */
-.container.grid.center-align {
-  justify-content: center;
-  text-align: center;
-}
-
-/* List View Specific Layout */
-/* List view layout adjustments */
-.container.list .card {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1em;
-  padding: 1em;
-  height: auto;
-}
-
-.container.list .card img {
-  width: 250px;
-  height: auto;
-  object-fit: cover;
-  flex-shrink: 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.container.list .card-content {
-  flex: 1;
-  text-align: left;
-  padding: 0;
-}
-
-/* List view overrides for buttons */
-.container.list .card-buttons {
-  position: static;
-  transform: none;
-  margin-top: 1em;
-  justify-content: flex-start;
-}
-
-.container.list .card-buttons a.card-button {
-  opacity: 1;
-  transform: none;
-}
-
-.container.list .developers-hover {
-  display: block;
-  margin-top: 1em;
-}
-
-/* Carousel: center */
-.swiper-wrapper.center-align {
-  justify-content: center;
-  text-align: center;
 }

@@ -35,7 +35,6 @@
         <h4>STF PROGRAMMING TEAM</h4>
       </div>
     </header>
-
     <!-- Controls Section -->
     <div class="controls">
       <input
@@ -44,33 +43,29 @@
         placeholder="Search projects..."
         oninput="filterProjects()"
       />
-      <!-- <select id="sortSelect" onchange="filterProjects()">
-        <option value="az">Sort A–Z</option>
-        <option value="za">Sort Z–A</option>
-      </select> -->
 
       <!-- View Icons -->
-      <i class="fa fa-th-large" onclick="setView('grid')" title="Grid View"></i>
-      <i class="fa fa-list" onclick="setView('list')" title="List View"></i>
       <i
         class="fa fa-images"
         onclick="setView('carousel')"
         title="Carousel View"
       ></i>
+
+      <i class="fa fa-th-large" onclick="setView('grid')" title="Grid View"></i>
     </div>
 
-    <!-- Project Container -->
-    <div class="container grid" id="projectContainer"></div>
+    <!-- Project Containers -->
+    <div id="projectContainer" class="container grid"></div>
 
-    <div class="carousel-wrapper">
-      <div
-        class="swiper-container"
-        id="carouselContainer"
-        style="display: none"
-      >
-        <div class="swiper-wrapper"></div>
-        <div class="swiper-pagination"></div>
-      </div>
+    <div
+      id="carouselContainer"
+      class="swiper-container"
+      style="width: 100%; display: none"
+    >
+      <div class="swiper-wrapper"></div>
+      <!-- <div class="swiper-pagination"></div> -->
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
 
     <div
@@ -107,69 +102,52 @@
       <p>- STF Programming Team</p>
     </footer>
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
       let projects = [];
-      let currentView = "grid";
-      let searchText = "";
-      // let sortOrder = "az";
-      let hasVideoPlayed = false; // Declare this globally
+      let currentView = "carousel";
+      let mySwiper = null;
+
       // Fetch projects
       fetch("/api/projects")
         .then((res) => res.json())
         .then((data) => {
-          // Exclude the "admin" project
-          projects = data.filter((project) => project.name !== "admin");
-          filterProjects();
+          projects = data.filter((p) => p.name !== "admin");
+          setView("carousel"); // Initial view
         });
 
-      // View switch
       function setView(view) {
         currentView = view;
-
         const container = document.getElementById("projectContainer");
         const carousel = document.getElementById("carouselContainer");
 
         if (view === "carousel") {
           container.style.display = "none";
           carousel.style.display = "block";
+          filterProjects();
         } else {
           container.style.display = "grid";
           carousel.style.display = "none";
-          container.className = `container ${view}`;
+          filterProjects();
         }
-
-        filterProjects();
       }
 
-      // Filter projects
       function filterProjects() {
-        searchText = document.getElementById("searchInput").value.toLowerCase();
-        //sortOrder = document.getElementById("sortSelect").value;
-
-        let filtered = projects.filter(
-          (p) =>
-            p.name.toLowerCase().includes(searchText) ||
-            (p.description && p.description.toLowerCase().includes(searchText))
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const filtered = projects.filter((p) =>
+          p.name.toLowerCase().includes(searchInput)
         );
-
-        // filtered.sort((a, b) => {
-        //   return sortOrder === "az"
-        //     ? a.name.localeCompare(b.name)
-        //     : b.name.localeCompare(a.name);
-        // });
-
         renderProjects(filtered);
       }
-
-      // function setSort(order) {
-      //   sortOrder = order; // make sure this updates the main variable
-      //   filterProjects();
-      // }
 
       function renderProjects(data) {
         const container = document.getElementById("projectContainer");
         const carouselWrapper = document.querySelector(".swiper-wrapper");
 
+        // Clear old content
         container.innerHTML = "";
         carouselWrapper.innerHTML = "";
 
@@ -177,58 +155,57 @@
           const devs = project.developers
             .map(
               (dev) => `
-          <div>
-            <strong>${dev.name}</strong><br />
-            <em style="font-size: 0.9em; color: #fff;">(${dev.section})</em>
-          </div>
-        `
+        <div>
+          <strong>${dev.name}</strong><br />
+          <em style="font-size: 0.9em; color: #fff;">(${dev.section})</em>
+        </div>
+      `
             )
             .join("");
 
           const isStudentLocator = project.name === "Student Locator";
 
-          // Start with empty buttons
+          // Buttons
           let buttons = `<div class="card-buttons">`;
 
           if (project.url) {
             buttons += `<a class="card-button" href="${project.url}" target="_blank" aria-label="Open App">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
-      <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
-      <polyline points="15 3 21 3 21 9"></polyline>
-      <line x1="10" x2="21" y1="14" y2="3"></line>
-    </svg>
-  </a>`;
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link">
+          <path d="M18 13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" x2="21" y1="14" y2="3"></line>
+        </svg>
+      </a>`;
           }
 
           if (isStudentLocator) {
             buttons += `<a class="card-button" href="student-locator-video.html" title="Play Video">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="lucide lucide-play-circle">
-      <circle cx="12" cy="12" r="10" />
-      <polygon points="10 8 16 12 10 16 10 8" />
-    </svg>
-  </a>`;
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-play-circle">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="10 8 16 12 10 16 10 8" />
+        </svg>
+      </a>`;
           }
 
           buttons += `</div>`;
 
-          // GRID / LIST VIEW CARD
+          // GRID VIEW CARD
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
       <img src="${
         project.image || "https://dummyimage.com/300x150/000/fff"
-      }" alt="${project.name}">
+      }" alt="${project.name}" />
       <div class="card-overlay"></div>
-   <div class="card-content">
-  <h3>${project.name}</h3>
-  <p>${project.description || "No description available."}</p>
-  ${buttons}
-  <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
-</div>
-
+      <div class="card-content">
+        <h3>${project.name}</h3>
+        <p>${project.description || "No description available."}</p>
+        ${buttons}
+        <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
+      </div>
     `;
           container.appendChild(card);
 
@@ -244,46 +221,49 @@
         <div class="card-content">
           <h3>${project.name}</h3>
           <p>${project.description || "No description available."}</p>
-        </div>
-      ${buttons}
-
-        <div class="developers-hover">
-          <strong>Developers:</strong><br>${devs}
+          ${buttons}
+          <div class="developers-hover"><strong>Developers:</strong><br>${devs}</div>
         </div>
       </div>
     `;
           carouselWrapper.appendChild(slide);
         });
 
+        // Animate cards
         document.querySelectorAll(".card").forEach((card, i) => {
           setTimeout(() => card.classList.add("show"), i * 10);
         });
 
-        if (currentView === "carousel") {
-          new Swiper(".swiper-container", {
-            loop: true,
-            spaceBetween: 20,
-            pagination: {
-              el: ".swiper-pagination",
-              clickable: true,
-            },
-            breakpoints: {
-              320: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            },
-          });
+        // Handle Swiper
+        if (mySwiper) {
+          mySwiper.destroy(true, true);
+          mySwiper = null;
         }
 
-        container.className = "container";
-        carouselWrapper.classList.remove("center-align");
-
-        if (currentView === "list") {
-          container.classList.add("list", "left-align");
-        } else if (currentView === "grid") {
-          container.classList.add("grid", "center-align");
-        } else if (currentView === "carousel") {
-          carouselWrapper.classList.add("center-align");
+        if (currentView === "carousel") {
+          // Defer initialization to ensure DOM is ready
+          requestAnimationFrame(() => {
+            mySwiper = new Swiper(".swiper-container", {
+              loop: false,
+              spaceBetween: 20,
+              slidesPerView: "auto",
+              centeredSlides: false,
+              pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+              },
+              navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              },
+              breakpoints: {
+                320: { slidesPerView: 1.2, spaceBetween: 15 },
+                600: { slidesPerView: 2.2, spaceBetween: 20 },
+                1024: { slidesPerView: 3.5, spaceBetween: 25 },
+                1280: { slidesPerView: 4, spaceBetween: 30 },
+              },
+            });
+          });
         }
       }
 
@@ -291,28 +271,26 @@
         const greetingVideo = document.getElementById("greetingVideo");
         const soundPrompt = document.getElementById("soundPrompt");
 
-        // Load admin video if available
         fetch("/api/projects")
           .then((res) => res.json())
-          .then((projects) => {
-            const adminProject = projects.find((p) => p.name === "admin");
+          .then((data) => {
+            const adminProject = data.find((p) => p.name === "admin");
+            projects = data.filter((p) => p.name !== "admin");
 
-            if (adminProject && greetingVideo) {
-              const videoSource = greetingVideo.querySelector("source");
-              if (adminProject.video) {
-                videoSource.src = adminProject.video;
-                greetingVideo.load();
-              }
+            if (adminProject && adminProject.video && greetingVideo) {
+              greetingVideo.querySelector("source").src = adminProject.video;
+              greetingVideo.load();
             }
+
+            // Set initial view AFTER projects loaded, container visible
+            setView("carousel");
           })
           .catch((err) => {
-            console.error("Failed to load admin project data:", err);
+            console.error("Failed to fetch projects:", err);
           });
 
-        // Wait for user interaction to play the video
         if (soundPrompt && greetingVideo) {
           soundPrompt.style.display = "flex";
-
           soundPrompt.addEventListener("click", () => {
             greetingVideo.muted = false;
             greetingVideo.play();
@@ -328,7 +306,5 @@
         }
       });
     </script>
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </body>
 </html>
