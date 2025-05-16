@@ -125,7 +125,13 @@
         if (view === "carousel") {
           container.style.display = "none";
           carousel.style.display = "block";
-          filterProjects();
+
+          // Ensure DOM has updated before rendering
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              filterProjects();
+            }, 100); // Increased delay slightly
+          });
         } else {
           container.style.display = "grid";
           carousel.style.display = "none";
@@ -271,26 +277,28 @@
         const greetingVideo = document.getElementById("greetingVideo");
         const soundPrompt = document.getElementById("soundPrompt");
 
+        // Load admin video if available
         fetch("/api/projects")
           .then((res) => res.json())
-          .then((data) => {
-            const adminProject = data.find((p) => p.name === "admin");
-            projects = data.filter((p) => p.name !== "admin");
+          .then((projects) => {
+            const adminProject = projects.find((p) => p.name === "admin");
 
-            if (adminProject && adminProject.video && greetingVideo) {
-              greetingVideo.querySelector("source").src = adminProject.video;
-              greetingVideo.load();
+            if (adminProject && greetingVideo) {
+              const videoSource = greetingVideo.querySelector("source");
+              if (adminProject.video) {
+                videoSource.src = adminProject.video;
+                greetingVideo.load();
+              }
             }
-
-            // Set initial view AFTER projects loaded, container visible
-            setView("carousel");
           })
           .catch((err) => {
-            console.error("Failed to fetch projects:", err);
+            console.error("Failed to load admin project data:", err);
           });
 
+        // Wait for user interaction to play the video
         if (soundPrompt && greetingVideo) {
           soundPrompt.style.display = "flex";
+
           soundPrompt.addEventListener("click", () => {
             greetingVideo.muted = false;
             greetingVideo.play();

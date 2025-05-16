@@ -41,7 +41,7 @@ html {
 /* Video styling */
 .video-greeting {
   width: 100%;
-  max-width: 420px;
+  max-width: 520px;
 }
 
 .video-greeting video {
@@ -92,7 +92,7 @@ html {
 
   .video-greeting {
     flex: 1;
-    max-width: 420px;
+    max-width: 520px;
   }
 
   .header-text {
@@ -183,9 +183,10 @@ html {
 
 .card img {
   width: 100%;
-  height: 150px;
+  height: 200px;
   object-fit: cover;
   border-radius: 5px 5px 0 0;
+  margin-bottom: 20px;
 }
 
 .card h3 {
