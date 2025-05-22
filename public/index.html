@@ -114,8 +114,9 @@
         .then((res) => res.json())
         .then((data) => {
           projects = data.filter((p) => p.name !== "admin");
-          setView("carousel"); // Initial view
-        });
+          setView("carousel"); // Set default after projects loaded
+        })
+        .catch((e) => console.error("Failed loading projects", e));
 
       function setView(view) {
         currentView = view;
@@ -126,15 +127,13 @@
           container.style.display = "none";
           carousel.style.display = "block";
 
-          // Ensure DOM has updated before rendering
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              filterProjects();
-            }, 100); // Increased delay slightly
-          });
+          // Delay renderProjects so DOM is ready and container visible
+          filterProjects();
         } else {
           container.style.display = "grid";
           carousel.style.display = "none";
+
+          // Directly filter projects for grid
           filterProjects();
         }
       }
